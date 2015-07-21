@@ -17,9 +17,13 @@ dice <- function(sql, dimension, subdimension, values) {
 #' @param columns List of columns to select. This can include functions.
 #' @example
 #'   select('select %s from "fact_iris', c('count(*)', 'sum(Sepal.Length)'))
-select <- function(sql, columns)
-  paste0(sprintf(sql, paste(columns, collapse = ', ')), ';\n')
-
+select <- function(sql, columns) {
+  columns.sql <- paste(columns, collapse = ', ')
+  sub.sql <- sprintf(sql, columns)
+  root.sql <- 'select %s "a" from (%s) join "dim_%s" "b" on a.%s_id = b.id
+, ';\n'
+  paste0(sprintf(root, table.a))
+}
 
 example <- function() {
   cube('iris') %>%
