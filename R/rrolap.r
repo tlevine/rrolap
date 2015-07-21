@@ -18,7 +18,7 @@ dice <- function(sql, dimension, subdimension, values) {
 #' @example
 #'   select('select %s from "fact_iris', c('count(*)', 'sum(Sepal.Length)'))
 select <- function(sql, columns)
-  sprintf(sql, paste(columns, collapse = ', '), ';')
+  paste0(sprintf(sql, paste(columns, collapse = ', ')), ';\n')
 
 
 example <- function() {
