@@ -8,9 +8,9 @@ cube <- function(fact.table)
 dice <- function(sql, dimension, subdimension, values) {
   labels <- paste(values, collapse = "', '")
   if (grepl('where$', sql))
-    where <- ' "%s_id" in (select "id" from "dim_%s" where label in (\'%s\'))\n'
+    where <- ' "%s_id" in (select "id" from "dim_%s" where label in (\'%s\'))'
   else
-    where <- '  and "%s_id" in (select "id" from "dim_%s" where label in (\'%s\'))\n'
+    where <- '\nand "%s_id" in (select "id" from "dim_%s" where label in (\'%s\'))'
   paste0(sql, sprintf(where, dimension, dimension, labels))
 }
 
@@ -23,7 +23,7 @@ select <- function(sql, columns)
 
 example <- function() {
   cube('iris') %>%
-    dice('species', c('label', 'virginica')) %>%
+    dice('species', 'label', c('virginica')) %>%
     select('Sepal.Length') -> subcube
   subcube
 }
